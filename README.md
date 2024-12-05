@@ -1,5 +1,5 @@
 # libsig
-Signature for image and video. This project is based on OpenSSL, make sure that you have installed OpenSSL before using this code. 
+Signature for image, video, and audio. This project is based on OpenSSL, make sure that you have installed OpenSSL before using this code. 
 
 For example, you can install openssl on your mac using the following command:
 
