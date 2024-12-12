@@ -5,10 +5,15 @@ For example, you can install openssl on your mac using the following command:
 
     brew install openssl@3
 
-Then verify the installation:
+We verified our code on Mac OS 12.7.6:
 
     openssl version
     OpenSSL 3.4.0 22 Oct 2024 (Library: OpenSSL 3.4.0 22 Oct 2024)
+
+and Ubuntu 22.04.5:
+
+    openssl version
+    OpenSSL 3.0.2 15 Mar 2022 (Library: OpenSSL 3.0.2 15 Mar 2022)
 
 ## Python demo
 
