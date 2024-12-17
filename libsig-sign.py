@@ -16,11 +16,13 @@ def sign_media(args):
     private_key = args.private_key
     identity_id = args.identity_id
 
+    openssl_start_time = time.perf_counter()
+
     # Generate signature using openssl
     result = subprocess.run(
         ["openssl", 
          "dgst", 
-         "-sha256", 
+         "-sha512", 
          "-sign", 
          private_key, 
          "-out", 
@@ -33,6 +35,11 @@ def sign_media(args):
     if result.returncode != 0:
         print(f"Error signing media: {result.stderr}")
         exit()
+
+    openssl_end_time = time.perf_counter()
+
+    openssl_execution_time_ms = (openssl_end_time - openssl_start_time) * 1000
+    print(f"OpenSSL Execution time：{openssl_execution_time_ms:.2f} ms")
 
     # Read signature and media content
     with open("signature.bin", "rb") as sig_file:
@@ -69,4 +76,4 @@ if __name__ == "__main__":
     end_time = time.perf_counter()
 
     execution_time_ms = (end_time - start_time) * 1000
-    print(f"Execution time：{execution_time_ms:.2f} ms")
+    print(f"Total Execution time：{execution_time_ms:.2f} ms")
