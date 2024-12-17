@@ -9,6 +9,8 @@ import base64
 import subprocess
 import argparse
 
+import time
+
 def verify_signature(args):
     media = args.media_file
     public_key = args.public_key
@@ -38,11 +40,13 @@ def verify_signature(args):
     with open("tmp-media.bin", "wb") as media_file:
         media_file.write(media_data)
 
+    openssl_start_time = time.perf_counter()
+
     # Verify signature using openssl
     result = subprocess.run(
         ["openssl", 
          "dgst", 
-         "-sha256", 
+         "-sha512", 
          "-verify", 
          public_key, 
          "-signature", 
@@ -58,13 +62,25 @@ def verify_signature(args):
     else:
         print("Verification successful.")
 
+    openssl_end_time = time.perf_counter()
+
+    openssl_execution_time_ms = (openssl_end_time - openssl_start_time) * 1000
+    print(f"OpenSSL Execution time：{openssl_execution_time_ms:.2f} ms")
+
     # delete tmp files
     os.remove("tmp-signature.bin")
     os.remove("tmp-media.bin")
 
 if __name__ == "__main__":
+    start_time = time.perf_counter()
+
     parser = argparse.ArgumentParser();
     parser.add_argument("--media_file", help="Signed media file")
     parser.add_argument("--public_key", help="Path to public key file")
     args = parser.parse_args()
     verify_signature(args)
+
+    end_time = time.perf_counter()
+
+    execution_time_ms = (end_time - start_time) * 1000
+    print(f"Total Execution time：{execution_time_ms:.2f} ms")
