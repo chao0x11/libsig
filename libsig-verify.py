@@ -46,7 +46,7 @@ def verify_signature(args):
     result = subprocess.run(
         ["openssl", 
          "dgst", 
-         "-sha512", 
+         "-sha256", 
          "-verify", 
          public_key, 
          "-signature", 
