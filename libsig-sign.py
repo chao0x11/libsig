@@ -22,7 +22,7 @@ def sign_media(args):
     result = subprocess.run(
         ["openssl", 
          "dgst", 
-         "-sha512", 
+         "-sha256", 
          "-sign", 
          private_key, 
          "-out", 
