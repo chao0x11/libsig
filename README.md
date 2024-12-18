@@ -1,5 +1,5 @@
 # libsig
-Digital Signature for images, videos, and audios. This project is based on [OpenSSL][1], make sure that you have installed OpenSSL before using this code. 
+Digital Signature for images and videos. This project is based on [OpenSSL][1], make sure that you have installed OpenSSL before using this code. 
 
 For example, you can install openssl on your Mac OSX using the following command:
 
