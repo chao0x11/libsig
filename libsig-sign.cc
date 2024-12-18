@@ -8,6 +8,8 @@
 #include <vector>
 #include <cstdlib>  // std::system
 
+#include <chrono>
+
 std::string getSuffix(const std::string& fileName) {
     std::string suffix;
     int mark = 0;
@@ -33,9 +35,13 @@ void readFile(const char* fileName, std::vector<unsigned char>& data) {
 }
 
 int main(int argc, char* argv[]) {
+    auto start = std::chrono::high_resolution_clock::now();
+
     std::string media = argv[1];
     std::string private_key = argv[2];
     int identity_id = atoi(argv[3]);
+
+    auto openssl_start = std::chrono::high_resolution_clock::now();
 
     std::string command = "openssl dgst -sha256 -sign ";
     command = command + private_key;
@@ -48,6 +54,14 @@ int main(int argc, char* argv[]) {
         std::cerr << "Error sign file." << std::endl;
         return 1;
     }
+
+    auto openssl_end = std::chrono::high_resolution_clock::now();
+
+    auto openssl_dur = openssl_end - openssl_start;
+    auto openssl_milliseconds = 
+        std::chrono::duration_cast<std::chrono::milliseconds>(openssl_dur).count();
+    
+    std::cout << "OpenSSL execution time: " << openssl_milliseconds << " ms\n";
 
     // Read signature and media content
     std::vector<unsigned char> signature_data;
@@ -81,6 +95,12 @@ int main(int argc, char* argv[]) {
         std::cerr << "Error remove tmp file." << std::endl;
         return 1;
     }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto dur = end - start;
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+    
+    std::cout << "Total execution time: " << milliseconds << " ms\n";
 
     return 0;
 }
